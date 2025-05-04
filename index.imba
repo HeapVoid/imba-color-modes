@@ -1,4 +1,4 @@
-import mixer from './mix.imba'
+import mixer from './mixer.imba'
 
 global css
 	@root
