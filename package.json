@@ -1,9 +1,9 @@
 {
   "name": "imba-color-modes",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/HeapVoid/imba-color-scheme.git"
+    "url": "git+https://github.com/HeapVoid/imba-color-modes.git"
   },
   "main": "./index.imba",
   "devDependencies": {
