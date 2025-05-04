@@ -1,4 +1,4 @@
-import mix from './mix.imba'
+import mixer from './mix.imba'
 
 global css
 	@root
@@ -121,10 +121,10 @@ export def pallete name\string, lightest\string, peak\string, darkest\string
 	const colors = []
 
 	for i in [0 .. 9]
-		colors.push mix(peak, i * 10, lightest)
+		colors.push mixer(peak, i * 10, lightest)
 	colors.push peak
 	for i in [1 .. 10]
-		colors.push mix(peak, 100 - i * 10, darkest)
+		colors.push mixer(peak, 100 - i * 10, darkest)
 	
 	if name
 		for i in [0 .. 19]
@@ -132,4 +132,4 @@ export def pallete name\string, lightest\string, peak\string, darkest\string
 	
 	return colors
 
-export * from './mix.imba'
+export const mix = mixer

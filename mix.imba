@@ -56,7 +56,7 @@ def oklabToLinearRgb L, a, b
 # Main function to mix two hex colors in Oklab space
 # with a given percent for the first color
 # --------------------------------------------------
-export default def mix hex1, percent, hex2
+export default def mixer hex1, percent, hex2
 
 	# Convert hex to RGB
 	const rgb1 = hexToRgb(hex1)
