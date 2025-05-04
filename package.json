@@ -1,0 +1,16 @@
+{
+  "name": "imba-color-modes",
+  "version": "0.1.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/HeapVoid/imba-color-scheme.git"
+  },
+  "main": "./index.imba",
+  "devDependencies": {
+    "imba": "latest"
+  },
+  "description": "A class and helper functions to make using dark and light color schemes in Imba easier.",
+  "keywords": ["imba", "theme", "dark", "light", "color scheme", "color modes", "color", "palette"],
+  "license": "MIT",
+  "type": "module"
+}
