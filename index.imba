@@ -5,8 +5,9 @@ global css
 		color-scheme: light dark
 
 export class ColorModes
+
 	def constructor
-		preset = imba.locals._color_mode
+		document.documentElement.style.colorScheme = active
 
 	get light
 		return preset == 'light'
@@ -36,14 +37,10 @@ export class ColorModes
 		window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
 	
 	get preset
-		return imba.locals._color_mode in ['light', 'dark', 'system'] ? imba.locals._color_mode : 'system'
+		return imba.locals._color_mode in ['light', 'dark'] ? imba.locals._color_mode : 'system'
 
 	set preset value\string
-		value = value in ['light', 'dark', 'system'] ? value : 'system'
-		if value == 'system'
-			delete imba.locals._color_mode
-		else
-			imba.locals._color_mode = value
+		imba.locals._color_mode = value in ['light', 'dark'] ? value : 'system'
 		document.documentElement.style.colorScheme = active
 
 	def toggle
