@@ -96,7 +96,7 @@ However, `$base2` will be drawn from either the light or dark palette depending 
 
 Opposite to wave frequency a color is not absolute, it is just a result of modeling reality in our minds. And we, humans, have a very weird color perception. It is anything but linear. Since first computers there were many attempts to unify somehow color spaces. And only recently appeared such color spaces as Oklab or Oklch (and they are not only weird but also not perfect).
 
-As a result, building fully automatic coloring is almost impossible. However, opinionated approach implemented in this library makea it much more simple for developers.
+As a result, building fully automatic coloring is almost impossible. However, opinionated approach implemented in this library makes it much more simple for developers.
 
 Turned over pallete allows to work in the same shades pallete in dark and light modes. However, to make it work it should be adjusted: 
 * Base color can be anything, so if it is too light, then each step from lighest to the center will be too small, while from center to darkest will be too big. So just turning over the pallete will not result in good visuals. So the base color should be adjusted properly, so it is really in the middle between laghtest and darkest.
@@ -113,7 +113,7 @@ const modes = new ColorModes!
 <ColorModeSwitcher engine=modes>
 <ColorModeSwitcherSimple engine=modes>
 ```
-**ColorModeSwitcher** shows three icons a user can click: sun, moon, system. 
+**ColorModeSwitcher** shows three icons a user can click: light, dark, system. 
 **ColorModeSwitcherSimple** shows only one to toggle light/dark modes.
 
 ### Component Styling
