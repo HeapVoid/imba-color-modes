@@ -107,7 +107,8 @@ Turned over pallete allows to work in the same shades pallete in dark and light 
 ## 🔄 Switcher Components
 
 ```imba
-import {ColorModes, ColorModeSwitcher, ColorModeSwitcherSimple} from 'imba-color-mode'
+import {ColorModes} from 'imba-color-mode'
+import {ColorModeSwitcher, ColorModeSwitcherSimple} from 'imba-color-mode/components'
 
 const modes = new ColorModes!
 <ColorModeSwitcher engine=modes>

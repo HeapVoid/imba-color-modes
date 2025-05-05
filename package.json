@@ -1,16 +1,36 @@
 {
   "name": "imba-color-modes",
-  "version": "0.1.4",
+  "version": "0.1.8",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/HeapVoid/imba-color-modes.git"
   },
-  "main": "./index.imba",
+  "main": "index.js",
+  "module": "index.js",
+  "browser": "index.js",
   "devDependencies": {
-    "imba": "latest"
+    "imba": "latest",
+    "bimba-cli": "latest"
+  },
+  "scripts": {
+    "bundle": "bunx bimba index.imba --outdir . --minify",
+    "pub": "bunx bimba index.imba --outdir . --minify && bun publish"
   },
   "description": "A class and helper functions to make using dark and light color schemes in Imba easier.",
   "keywords": ["imba", "theme", "dark", "light", "color scheme", "color modes", "color", "palette"],
   "license": "MIT",
-  "type": "module"
+  "type": "module",
+  "files": [
+    "index.imba",
+    "index.js",
+    "components.imba",
+    "components.d.ts"
+  ],
+  "exports": {
+    ".": "./index.js",
+    "./components": {
+      "import": "./components.imba",
+      "types": "./components.d.ts"
+    }
+  }
 }
