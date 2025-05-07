@@ -62,13 +62,11 @@ modes.toggle!
 * **Boolean properties**: `.light`, `.dark`, `.auto` for easy toggling.
 * **`toggle()`** switches between `light` and `dark` presets.
 
-## 🎨 Palette Function
+## 🎨 Palette Functions
 
 This library contains additional functions to simplify the work with themes:
 * **`mix(color1, parecent, color2)`** converts hex inputs to Oklab, interpolates, and returns hex for perceptually uniform transitions with (percent)% of color1 and (100 - percent)% of color2.
-* **`palette(name, lightest, color, darkest)`** generates 21 colors smoothly varying from lightest to darkest around a given base color.
-
-If the pallete is named (the 1st parameter is not empty string) each color in the generated pallete will be assigned to name-based CSS variables. 
+* **`palette(name, count, [light_start, light_end], [dark_start, dark_end])`** generates `count` CSS variables with colors smoothly varying from start to end independently for light and dark modes.
 
 ```imba
 import {mix, pallete} from 'imba-color-modes'
@@ -77,34 +75,20 @@ import {mix, pallete} from 'imba-color-modes'
 const blended = mix('#ff0000', 20, '#0000ff')  # mixes 20% of red with 80% of blue in Oklab space
 console.log blended  # '#4441db'
 
-# Generate a palette named 'base' of 21 smoothly transitioning colors
-const colors = palette('base', '#FFFFFF', color, '#000000')
-console.log colors  # Array of 21 pallete hex colors
+# Generate light and dark palettes with the same name 'base' of 10 smoothly transitioning colors
+palette('base', 10, ['#FFFFFF', '#FF0000'], ['#000000', '#FF0000'])
+
+# using colors of the pallete in css
+css .block bgc:$base2 bdc:$base6
 ```
+Pallete function allows to create custom color palletes that can be used almost the same as built-in color names in Imba (the only difference is that these custom colors can be used only in CSS and their names should start with leading $ sign).
 
-The `pallete` function generates 21 `light-dark` CSS variables: `$base0`, `$base1` ...  `$base19`, `$base20`
-The idea is that in the light mode `$base0` resolves to the lightest color (`'#FFFFFF'` from the example), while in dark mode to darkest (`'#000000'`), and each next step is further from these starting colors. 
+But more importantly it creates TWO independent palletes for light and dark modes accessed with the same name space. For example, in the example above variable `$base2` will have different values in light and dark modes. In light mode it will be two steps from white to red, while in dark it will be two steps from black to red.
 
-If we imagine the pallete as colors going from left to right from the lightest to darkest, in light mode numbering of CSS variables will go from left to right, while in dark mode it will be opposite - numbering will go from right to left. Howerver, in both dark and light modes `$base10` resolves to the main color (3rd parameter of the `pallete` function), since it is in the middle (10 steps away) from both sides.
+This approach allows, to create let's say a dark theme for an application using CSS variables, and then just tune the color pallete for light theme without making many small changes all over the code to adjust each tag style. Such concentrating of all the tuning in one place makes it much more simple for developers to get second theme almost automatically and should be enough in majority of cases.
 
-This allows to use a single CSS variable and the system will automatically switch the color based on the active mode. For example, you can use these theme-aware variables in your styling pretty straightforward:
-
-```imba
-.block bgc: $base2
-```
-
-In the example above, `$base2` will be drawn from either the light or dark palette depending on the current theme, two steps away from the starting color. In other words, in light mode it will be two steps darker than the lightest ('#FFFFFF'), while in dark mode it will be two steps lighter than the darkest ('#000000').
-
-### Hints About Palletes
-
-Opposite to wave frequency colors are not absolute, they are just a result of modeling reality in our minds. And we, humans, have a very weird color perception. It is anything but linear. Since first computers there were many attempts to unify somehow color spaces. And only recently appeared such color spaces as Oklab or Oklch (however, they are still not perfect).
-
-As a result, building fully automatic coloring is almost impossible. But, opinionated approach implemented in this library makes it much more simple for developers.
-
-Turned over pallete allows to work in the same shades pallete in dark and light modes. However, to make it work, it should be adjusted: 
-* Base color can be anything, so if it is too light, then each step from lighest to the center will be too small, while from center to darkest will be too big. So just turning over the pallete will not result in good visuals. As a result the base color should be adjusted properly, so it is really in the middle between laghtest and darkest.
-* First steps in dark colors are not that perceptible as in the light. So better make darkest a little bit away from real black, for example like this: `pallete 'base', '#FFFFFF', color, mix(color,20,'#000000')`
-* Gray color looks very different with dark colors. So mix its darkest end with the main theme color: `pallete 'gray', '#FFFFFF', '#a8a8a8', mix(color,25,'#000000')`
+**Note:** You can use mixed colors to generate palletes:
+`pallete 'accent', 10, ['#FFFFFF',color], [mix(color,50,'#000000'), color]`
 
 
 ## 🔄 Switcher Components

@@ -153,19 +153,19 @@ export def mix hex1, percent, hex2
 # --------------------------------------------------
 # Main function to create a color palette
 # --------------------------------------------------
-export def pallete name\string, lightest\string, peak\string, darkest\string
-	const colors = []
-
-	for i in [0 .. 9]
-		colors.push mix(peak, i * 10, lightest)
-	colors.push peak
-	for i in [1 .. 10]
-		colors.push mix(peak, 100 - i * 10, darkest)
+export def pallete name\string, count = 10, light = [], dark = []
 	
-	if name
-		for i in [0 .. 19]
-			document.documentElement.style.setProperty("--{name}{i}", "light-dark({colors[i]},{colors[19 - i]})")
+	if !light or light.length != 2 or !dark or dark.length != 2
+		console.log 'Palletes must be defined as two colors'
+		return
 	
-	return colors
-
-
+	if !count or count < 4
+		console.log 'Count of colors in pallete must be greater than 3'
+		return
+	
+	document.documentElement.style.setProperty("--{name}0", "light-dark({light[0]},{dark[0]})")
+	for i in [1 .. count - 2]
+		const l =  mix(light[1], i * 100 / (count - 1), light[0])
+		const d = mix(dark[1], i * 100 / (count - 1), dark[0])
+		document.documentElement.style.setProperty("--{name}{i}", "light-dark({l},{d})")
+	document.documentElement.style.setProperty("--{name}{count - 1}", "light-dark({light[1]},{dark[1]})")
