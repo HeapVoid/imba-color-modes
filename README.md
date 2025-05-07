@@ -75,14 +75,14 @@ import {mix, pallete} from 'imba-color-modes'
 const blended = mix('#ff0000', 20, '#0000ff')  # mixes 20% of red with 80% of blue in Oklab space
 console.log blended  # '#4441db'
 
-# Generate light and dark palettes with the same name 'base' of 12 smoothly transitioning colors
-palette('base', ['#FFFFFF', 10, '#FF0000'], ['#000000', 10, '#FF0000'])
+# Generate light and dark palettes with the same name 'base' of 10 smoothly transitioning colors
+palette('base', ['#FFFFFF', 8, '#FF0000'], ['#000000', 8, '#FF0000'])
 
 # using colors of the pallete in css
 css .block bgc:$base2 bdc:$base6
 ```
 
-Pallete function receives two arrays that define the colors for light and dark modes (which should contain the equal amount of colors). It can be just colors or colors with a number in between - in this case the function will generate the number of shades between this two colors. For example, the light (or dark) pallete can be defined like this: `['#FFFFFF', '#EEEEEE', 10, '#000000']`. This pallete will add white, then gray, then 10 shades between gray and black and at last black.
+Pallete function receives two arrays that define the colors for light and dark modes (which should contain the equal amount of colors). It can be just colors or colors with a number in between - in this case the function will generate the number of shades between this two colors. For example, the light (or dark) pallete can be defined like this: `['#FFFFFF', '#EEEEEE', 8, '#000000']`. This pallete will add white, then gray, then 10 shades between gray and black and at last black.
 
 Pallete function allows to create custom color palletes that can be used almost the same as built-in color names in Imba (the only difference is that these custom colors can be used only in CSS and their names should start with leading $ sign).
 
@@ -91,7 +91,7 @@ But more importantly it creates TWO independent palletes for light and dark mode
 This approach allows, to create let's say a dark theme for an application using CSS variables, and then just tune the color pallete for light theme without making many small changes all over the code to adjust each tag style. Such concentrating of all the tuning in one place makes it much more simple for developers to get second theme almost automatically and should be enough in majority of cases.
 
 **Note:** You can use mixed colors to generate palletes:
-`pallete 'accent', ['#FFFFFF',10,color], [mix(color,50,'#000000'),10,color]`
+`pallete 'accent', ['#FFFFFF', 8, color], [mix(color,50,'#000000'), 8, color]`
 
 
 ## 🔄 Switcher Components
