@@ -153,19 +153,41 @@ export def mix hex1, percent, hex2
 # --------------------------------------------------
 # Main function to create a color palette
 # --------------------------------------------------
-export def pallete name\string, count = 10, light = [], dark = []
+export def pallete name\string, light = [], dark = []
 	
-	if !light or light.length != 2 or !dark or dark.length != 2
-		console.log 'Palletes must be defined as two colors'
+	if !light or !light.length or !dark or !dark.length
+		console.log 'Palletes must contain at least one color'
 		return
 	
-	if !count or count < 4
-		console.log 'Count of colors in pallete must be greater than 3'
+	if !(light[0] isa 'string') or !(light[-1] isa 'string') or !(dark[0] isa 'string') or !(dark[-1] isa 'string')
+		console.log 'Pallete definition should start and end with the color (as a string)'
+
+	let lights = []
+	let darks = []
+
+	for i in [0 ... light.length]
+		if light[i] isa 'string'
+			lights.push light[i]
+		elif light[i] isa 'number' 
+			for j in [1 .. light[i]]
+				lights.push mix(light[i + 1], j * 100 / (light[i] + 1), light[i - 1])
+		else 
+			console.log 'Pallete definition could contain only numbers or colors (as string)'
+			return
+
+	for i in [0 ... dark.length]
+		if dark[i] isa 'string'
+			darks.push dark[i]
+		elif dark[i] isa 'number' 
+			for j in [1 .. dark[i]]
+				darks.push mix(dark[i + 1], j * 100 / (dark[i] + 1), dark[i - 1])
+		else 
+			console.log 'Pallete definition could contain only numbers or colors (as string)'
+			return
+
+	if lights.length != darks.length
+		console.log 'Count of colors in dark and light palletes must be equal'
 		return
-	
-	document.documentElement.style.setProperty("--{name}0", "light-dark({light[0]},{dark[0]})")
-	for i in [1 .. count - 2]
-		const l =  mix(light[1], i * 100 / (count - 1), light[0])
-		const d = mix(dark[1], i * 100 / (count - 1), dark[0])
-		document.documentElement.style.setProperty("--{name}{i}", "light-dark({l},{d})")
-	document.documentElement.style.setProperty("--{name}{count - 1}", "light-dark({light[1]},{dark[1]})")
+
+	for i in [0 ... lights.length]
+		document.documentElement.style.setProperty("--{name}{i}", "light-dark({lights[i]},{darks[i]})")

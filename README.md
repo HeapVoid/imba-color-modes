@@ -66,7 +66,7 @@ modes.toggle!
 
 This library contains additional functions to simplify the work with themes:
 * **`mix(color1, parecent, color2)`** converts hex inputs to Oklab, interpolates, and returns hex for perceptually uniform transitions with (percent)% of color1 and (100 - percent)% of color2.
-* **`palette(name, count, [light_start, light_end], [dark_start, dark_end])`** generates `count` CSS variables with colors smoothly varying from start to end independently for light and dark modes.
+* **`palette(name, [array of shades for light], [array of shades for dark])`** generates CSS variables based color themes independent for light and dark modes.
 
 ```imba
 import {mix, pallete} from 'imba-color-modes'
@@ -75,12 +75,15 @@ import {mix, pallete} from 'imba-color-modes'
 const blended = mix('#ff0000', 20, '#0000ff')  # mixes 20% of red with 80% of blue in Oklab space
 console.log blended  # '#4441db'
 
-# Generate light and dark palettes with the same name 'base' of 10 smoothly transitioning colors
-palette('base', 10, ['#FFFFFF', '#FF0000'], ['#000000', '#FF0000'])
+# Generate light and dark palettes with the same name 'base' of 12 smoothly transitioning colors
+palette('base', ['#FFFFFF', 10, '#FF0000'], ['#000000', 10, '#FF0000'])
 
 # using colors of the pallete in css
 css .block bgc:$base2 bdc:$base6
 ```
+
+Pallete function receives two arrays that define the colors for light and dark modes (which should contain the equal amount of colors). It can be just colors or colors with a number in between - in this case the function will generate the number of shades between this two colors. For example, the light (or dark) pallete can be defined like this: `['#FFFFFF', '#EEEEEE', 10, '#000000']`. This pallete will add white, then gray, then 10 shades between gray and black and at last black.
+
 Pallete function allows to create custom color palletes that can be used almost the same as built-in color names in Imba (the only difference is that these custom colors can be used only in CSS and their names should start with leading $ sign).
 
 But more importantly it creates TWO independent palletes for light and dark modes accessed with the same name space. For example, in the example above variable `$base2` will have different values in light and dark modes. In light mode it will be two steps from white to red, while in dark it will be two steps from black to red.
@@ -88,7 +91,7 @@ But more importantly it creates TWO independent palletes for light and dark mode
 This approach allows, to create let's say a dark theme for an application using CSS variables, and then just tune the color pallete for light theme without making many small changes all over the code to adjust each tag style. Such concentrating of all the tuning in one place makes it much more simple for developers to get second theme almost automatically and should be enough in majority of cases.
 
 **Note:** You can use mixed colors to generate palletes:
-`pallete 'accent', 10, ['#FFFFFF',color], [mix(color,50,'#000000'), color]`
+`pallete 'accent', ['#FFFFFF',10,color], [mix(color,50,'#000000'),10,color]`
 
 
 ## 🔄 Switcher Components
