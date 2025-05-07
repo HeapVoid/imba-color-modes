@@ -17,8 +17,9 @@ A lightweight Imba module for managing color modes and performing perceptual col
 Add the module to your Imba project:
 
 ```bash
+# if you are using NodeJS
 npm install imba-color-modes 
-# or 
+# or if you are using Bun
 bun add imba-color-modes
 ```
 
@@ -108,6 +109,11 @@ Turned over pallete allows to work in the same shades pallete in dark and light 
 
 ## 🔄 Switcher Components
 
+This library contains two plug and play components, that can be easily used in your Imba application to switch between color modes. 
+
+**ColorModeSwitcher** shows three icons a user can click: light, dark, system. 
+**ColorModeSwitcherSimple** shows only one icon to toggle between light/dark modes.
+
 ```imba
 import {ColorModes} from 'imba-color-mode'
 import {ColorModeSwitcher, ColorModeSwitcherSimple} from 'imba-color-mode/components'
@@ -116,8 +122,6 @@ const modes = new ColorModes!
 <ColorModeSwitcher engine=modes>
 <ColorModeSwitcherSimple engine=modes>
 ```
-**ColorModeSwitcher** shows three icons a user can click: light, dark, system. 
-**ColorModeSwitcherSimple** shows only one icon to toggle between light/dark modes.
 
 ### Component Styling
 
@@ -151,21 +155,20 @@ Here how built-in CSS classes look like in components
 
 And here is example how to adjust the CSS properties of the components:
 ```imba
-# altering classes
 import {ColorModeSwitcher, ColorModeSwitcherSimple} from 'imba-color-mode/components'
+
 tag ModeSwitcher < ColorModeSwitcher
 	css
 		.container gap:20px
 		.button rd:50%
 		.button-active bgc:yellow
 
-tag ModeSwitcherSimple < ColorModeSwitcher
+tag ModeSwitcherSimple < ColorModeSwitcherSimple
 	css
 		.container rd:50%
 		.button h:40px w:40px bgc@hover:yellow
 
-# And then use this adjusted components as any other component:
-
+# Use this adjusted components as usual:
 tag App
 	<self>
 		<ModeSwitcherSimple>
@@ -176,10 +179,10 @@ The icons can be passed as tags to component attributes:
 ```imba
 tag SomeIcon
 	<self>
-		<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 19.375 18.8909">
+		<svg viewBox="..." xmlns="http://www.w3.org/2000/svg">
 			<path d="...">
 
 
-<ColorModeSwitcher light=SomeIcon> # dark, system
-<ColorModeSwitcherSimple light=SomeIcon> # dark
+<ColorModeSwitcher light=SomeIcon> # available icon attributes: light, dark, system
+<ColorModeSwitcherSimple light=SomeIcon> # available icon attributes: light, dark
 ```
