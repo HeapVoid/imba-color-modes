@@ -26,12 +26,12 @@ export tag ColorModeSwitcher
 	system = MonitorIcon
 
 	css
-		.container d:hflex w:fit-content gap:8px rd:8px p:4px bgc:light-dark(#000000/10, #FFFFFF/20)
-		.button d:inline-flex jc:center w:36px h:36px p:8px rd:6px cursor:pointer bgc@hover:light-dark(#000000/10, #FFFFFF/20) fill:light-dark(#000000/40, #FFFFFF/50)
+		.container gap:8px rd:8px p:4px bgc:light-dark(#000000/10, #FFFFFF/20)
+		.button w:36px h:36px p:8px rd:6px cursor:pointer bgc@hover:light-dark(#000000/10, #FFFFFF/20) fill:light-dark(#000000/40, #FFFFFF/50)
 		.button-active bgc:light-dark(#000000/10, #FFFFFF/20) cursor:default fill:light-dark(#000000, #FFFFFF)
 
 	<self>
-		<div.container [d:hflex w:fit-content]>
+		<div.container [d:hflex]>
 			<{light}.button [d:inline-flex jc:center] .button-active=engine.light @click=(engine.light = true)>
 			<{dark}.button [d:inline-flex jc:center] .button-active=engine.dark @click=(engine.dark = true)>
 			<{system}.button [d:inline-flex jc:center] .button-active=engine.auto @click=(engine.auto = true)>
@@ -42,12 +42,12 @@ export tag ColorModeSwitcherSimple
 	dark = MoonIcon
 
 	css
-		.container w:fit-content gap:8px rd:8px p:8px
-		.button h:20px w:20px bgc:light-dark(#000000/10, #FFFFFF/20) bgc@hover:light-dark(#000000/20, #FFFFFF/30) cursor:pointer fill:light-dark(#000000, #FFFFFF)
+		.button gap:8px rd:8px p:8px bgc:light-dark(#000000/10, #FFFFFF/20) bgc@hover:light-dark(#000000/20, #FFFFFF/30) cursor:pointer
+		.icon h:20px w:20px fill:light-dark(#000000, #FFFFFF)
 
 	<self>
-		<div.container [w:100% h:100% d:hflex] @click=engine.toggle!>
+		<div.button [w:100% h:100% d:hflex] @click=engine.toggle!>
 			if engine.active == 'dark'
-				<{light}.button [d:inline-flex jc:center]>
+				<{light}.icon [d:inline-flex jc:center]>
 			else
-				<{dark}.button [d:inline-flex jc:center]>
+				<{dark}.icon [d:inline-flex jc:center]>

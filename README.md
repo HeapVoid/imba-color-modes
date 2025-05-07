@@ -144,12 +144,13 @@ Here how built-in CSS classes look like in components
 	fill:light-dark(#000000, #FFFFFF)
 	
 # ColorModeSwitcherSimple
-.container 
-	w:fit-content gap:8px rd:8px p:8px
 .button 
 	cursor:pointer
+	gap:8px rd:8px p:8px 
+	bgc:light-dark(#000000/10, #FFFFFF/20) 
+	bgc@hover:light-dark(#000000/20, #FFFFFF/30)
+.icon 
 	h:20px w:20px 
-	bgc:light-dark(#000000/10, #FFFFFF/20) bgc@hover:light-dark(#000000/20, #FFFFFF/30) 
 	fill:light-dark(#000000, #FFFFFF)
 ```
 
@@ -165,8 +166,8 @@ tag ModeSwitcher < ColorModeSwitcher
 
 tag ModeSwitcherSimple < ColorModeSwitcherSimple
 	css
-		.container rd:50%
-		.button h:40px w:40px bgc@hover:yellow
+		.button rd:50%
+		.icon h:40px w:40px fill:yellow
 
 # Use this adjusted components as usual:
 tag App
