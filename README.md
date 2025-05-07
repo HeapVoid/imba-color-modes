@@ -82,7 +82,7 @@ palette('base', ['#FFFFFF', 8, '#FF0000'], ['#000000', 8, '#FF0000'])
 css .block bgc:$base2 bdc:$base6
 ```
 
-Pallete function receives two arrays that define the colors for light and dark modes (which should contain the equal amount of colors). It can be just colors or colors with a number in between - in this case the function will generate the number of shades between this two colors. For example, the light (or dark) pallete can be defined like this: `['#FFFFFF', '#EEEEEE', 8, '#000000']`. This pallete will add white, then gray, then 10 shades between gray and black and at last black.
+Pallete function receives two arrays that define the colors for light and dark modes (which should contain the equal amount of colors). It can be just colors or colors with a number in between - in this case the function will generate the number of shades between this two colors. For example, the light (or dark) pallete can be defined like this: `['#FFFFFF', '#EEEEEE', 8, '#000000']`. This pallete will add white, then gray, then 8 shades between gray and black and at last black - generating as a result 10 CSS variables: from $name0 to $name9.
 
 Pallete function allows to create custom color palletes that can be used almost the same as built-in color names in Imba (the only difference is that these custom colors can be used only in CSS and their names should start with leading $ sign).
 
