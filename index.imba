@@ -22,7 +22,7 @@ export class ColorModes
 		preset = 'system' if value
 
 	get active
-		return preset == 'system' ? system : window.localStorage.getItem('_color_mode')
+		return preset == 'system' ? system : window.localStorage.getItem('imba-color-modes')
 
 	set active value\string
 		preset = value
@@ -31,12 +31,12 @@ export class ColorModes
 		window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
 	
 	get preset
-		const mode = window.localStorage.getItem('_color_mode')
+		const mode = window.localStorage.getItem('imba-color-modes')
 		return mode in ['light', 'dark'] ? mode : 'system'
 
 	set preset value\string
 		const mode = value in ['light', 'dark'] ? value : 'system'
-		window.localStorage.setItem('_color_mode', mode)
+		window.localStorage.setItem('imba-color-modes', mode)
 		document.documentElement.style.colorScheme = active
 
 	def toggle

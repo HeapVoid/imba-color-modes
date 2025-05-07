@@ -6,7 +6,7 @@ A lightweight Imba module for managing color modes and performing perceptual col
 ## 🌗 Features
 
 * **Color Mode Management**: Get and set color mode (`light`, `dark`, or `system`).
-* **Persistence**: Stores user choice in `imba.locals._color_mode` across sessions.
+* **Persistence**: Stores user choice in local storage across sessions.
 * **Auto-Detection**: `system` preset follows OS/browser preference via `window.matchMedia`.
 * **Color Mixing**: `mix(color1, percent, color2)` returns an interpolated color in hex (Oklab-based).
 * **Color Palette Generation**: `palette(name, lightest, color, darkest)` generates a smooth 21-color gradient from lightest to darkest, centered on the `color`.
@@ -17,7 +17,9 @@ A lightweight Imba module for managing color modes and performing perceptual col
 Add the module to your Imba project:
 
 ```bash
-npm install imba-color-modes
+npm install imba-color-modes 
+# or 
+bun add imba-color-modes
 ```
 
 ## 📦 Basic Usage
@@ -34,9 +36,9 @@ console.log modes.active   # resolved to 'light' or 'dark'
 
 # Boolean getters
 # If one is true - two others are false.
-# This means that if the mode is defined by the system 
+# This means that if the mode is 'system'
 # dark and light will result to false. In other words
-# boolean getters are not resolved as 'active'
+# boolean getters are not resolved the same as 'active'
 console.log modes.light    # false
 console.log modes.dark     # false
 console.log modes.auto     # true
@@ -45,7 +47,7 @@ console.log modes.auto     # true
 modes.preset = 'dark'
 # or via booleans
 modes.light = true
-# or
+# or directly setting active
 modes.active = 'system'
 
 # Toggle between light/dark
@@ -82,7 +84,7 @@ console.log colors  # Array of 21 pallete hex colors
 The `pallete` function generates 21 `light-dark` CSS variables: `$base0`, `$base1` ...  `$base19`, `$base20`
 The idea is that in the light mode `$base0` resolves to the lightest color (`'#FFFFFF'` from the example), while in dark mode to darkest (`'#000000'`), and each next step is further from these starting colors. 
 
-If we imagine the pallete as colors going from left to right from the lightest to darkest, in light mode numbering of CSS variables will go from left to right, while in dark mode it will be opposite - numbering will go from right to left. Howerver, in both dark and light modes `$base10` resolves to the main color (3rd parameter), since it is in the middle (10 steps away) from both sides.
+If we imagine the pallete as colors going from left to right from the lightest to darkest, in light mode numbering of CSS variables will go from left to right, while in dark mode it will be opposite - numbering will go from right to left. Howerver, in both dark and light modes `$base10` resolves to the main color (3rd parameter of the `pallete` function), since it is in the middle (10 steps away) from both sides.
 
 This allows to use a single CSS variable and the system will automatically switch the color based on the active mode. For example, you can use these theme-aware variables in your styling pretty straightforward:
 
@@ -90,17 +92,17 @@ This allows to use a single CSS variable and the system will automatically switc
 .block bgc: $base2
 ```
 
-However, `$base2` will be drawn from either the light or dark palette depending on the current theme, two steps away from the starting color. In other words, in light mode it will be two steps darker than the lightest ('#FFFFFF'), while in dark mode it will be two steps lighter than the darkest ('#000000').
+In the example above, `$base2` will be drawn from either the light or dark palette depending on the current theme, two steps away from the starting color. In other words, in light mode it will be two steps darker than the lightest ('#FFFFFF'), while in dark mode it will be two steps lighter than the darkest ('#000000').
 
 ### Hints About Palletes
 
-Opposite to wave frequency a color is not absolute, it is just a result of modeling reality in our minds. And we, humans, have a very weird color perception. It is anything but linear. Since first computers there were many attempts to unify somehow color spaces. And only recently appeared such color spaces as Oklab or Oklch (and they are not only weird but also not perfect).
+Opposite to wave frequency colors are not absolute, they are just a result of modeling reality in our minds. And we, humans, have a very weird color perception. It is anything but linear. Since first computers there were many attempts to unify somehow color spaces. And only recently appeared such color spaces as Oklab or Oklch (however, they are still not perfect).
 
-As a result, building fully automatic coloring is almost impossible. However, opinionated approach implemented in this library makes it much more simple for developers.
+As a result, building fully automatic coloring is almost impossible. But, opinionated approach implemented in this library makes it much more simple for developers.
 
-Turned over pallete allows to work in the same shades pallete in dark and light modes. However, to make it work it should be adjusted: 
-* Base color can be anything, so if it is too light, then each step from lighest to the center will be too small, while from center to darkest will be too big. So just turning over the pallete will not result in good visuals. So the base color should be adjusted properly, so it is really in the middle between laghtest and darkest.
-* First steps in dark colors are not that perceptible as in the light. So better make darkest a little bit away from real black: `pallete 'base', '#FFFFFF', color, mix(color,25,'#000000')`
+Turned over pallete allows to work in the same shades pallete in dark and light modes. However, to make it work, it should be adjusted: 
+* Base color can be anything, so if it is too light, then each step from lighest to the center will be too small, while from center to darkest will be too big. So just turning over the pallete will not result in good visuals. As a result the base color should be adjusted properly, so it is really in the middle between laghtest and darkest.
+* First steps in dark colors are not that perceptible as in the light. So better make darkest a little bit away from real black, for example like this: `pallete 'base', '#FFFFFF', color, mix(color,20,'#000000')`
 * Gray color looks very different with dark colors. So mix its darkest end with the main theme color: `pallete 'gray', '#FFFFFF', '#a8a8a8', mix(color,25,'#000000')`
 
 
@@ -115,15 +117,59 @@ const modes = new ColorModes!
 <ColorModeSwitcherSimple engine=modes>
 ```
 **ColorModeSwitcher** shows three icons a user can click: light, dark, system. 
-**ColorModeSwitcherSimple** shows only one to toggle light/dark modes.
+**ColorModeSwitcherSimple** shows only one icon to toggle between light/dark modes.
 
 ### Component Styling
 
-Both `ColorModeSwitcher` and `ColorModeSwitcherSimple` are regular Imba tags, so you can style them using external CSS or Imba styles like any other component:
+Both of the color mode switching components are built in a way to make their adjusment as simple as possible through CSS classes. These classes can be altered via Imba inheritance mechanics.
 
+Here how built-in CSS classes look like in components
 ```imba
-<ColorModeSwitcher>
-    css p:8px rd:10px bgc:yellow
+# ColorModeSwitcher
+.container 
+	gap:8px rd:8px p:4px 
+	bgc:light-dark(#000000/10, #FFFFFF/20)
+.button 
+	cursor:pointer 
+	w:36px h:36px p:8px rd:6px
+	bgc@hover:light-dark(#000000/10, #FFFFFF/20) 
+	fill:light-dark(#000000/40, #FFFFFF/50)
+.button-active 
+	cursor:default 
+	bgc:light-dark(#000000/10, #FFFFFF/20) 
+	fill:light-dark(#000000, #FFFFFF)
+	
+# ColorModeSwitcherSimple
+.container 
+	w:fit-content gap:8px rd:8px p:8px
+.button 
+	cursor:pointer
+	h:20px w:20px 
+	bgc:light-dark(#000000/10, #FFFFFF/20) bgc@hover:light-dark(#000000/20, #FFFFFF/30) 
+	fill:light-dark(#000000, #FFFFFF)
+```
+
+And here is example how to adjust the CSS properties of the components:
+```imba
+# altering classes
+import {ColorModeSwitcher, ColorModeSwitcherSimple} from 'imba-color-mode/components'
+tag ModeSwitcher < ColorModeSwitcher
+	css
+		.container gap:20px
+		.button rd:50%
+		.button-active bgc:yellow
+
+tag ModeSwitcherSimple < ColorModeSwitcher
+	css
+		.container rd:50%
+		.button h:40px w:40px bgc@hover:yellow
+
+# And then use this adjusted components as any other component:
+
+tag App
+	<self>
+		<ModeSwitcherSimple>
+
 ```
 The icons can be passed as tags to component attributes:
 
@@ -135,23 +181,5 @@ tag SomeIcon
 
 
 <ColorModeSwitcher light=SomeIcon> # dark, system
-```
-
-In addition `ColorModeSwitcher` supports a number of CSS variables for customization of deeper tags:
-
-* `$button-w: 36px`
-* `$button-h: 36px`
-* `$button-p: 8px`
-* `$button-rd: 6px`
-* `$button-bgc-passive: transparent`
-* `$button-bgc-active: light-dark(#000000/10, #FFFFFF/20)`
-* `$button-bgc-hover:light-dark(#000000/10, #FFFFFF/20)`
-* `$icon-fill-passive: light-dark(#000000/40, #FFFFFF/50)`
-* `$icon-fill-active: light-dark(#000000, #FFFFFF)`
-
-Example:
-
-```imba
-<ColorModeSwitcher>
-    css $button-bgc-passive: #FEFEFE
+<ColorModeSwitcherSimple light=SomeIcon> # dark
 ```

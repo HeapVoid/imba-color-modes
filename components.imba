@@ -26,24 +26,15 @@ export tag ColorModeSwitcher
 	system = MonitorIcon
 
 	css
-		$button-w: 36px
-		$button-h: 36px
-		$button-p: 8px
-		$button-rd: 6px
-		$button-bgc-passive: transparent
-		$button-bgc-active: light-dark(#000000/10, #FFFFFF/20)
-		$button-bgc-hover:light-dark(#000000/10, #FFFFFF/20)
-		$icon-fill-passive: light-dark(#000000/40, #FFFFFF/50)
-		$icon-fill-active: light-dark(#000000, #FFFFFF)
-
-		.button w:$button-w h:$button-h p:$button-p d:inline-flex jc:center cursor:pointer fill:$icon-fill-passive bgc:$button-bgc-passive rd:$button-rd bgc@hover:$button-bgc-hover
-		.active bgc:$button-bgc-active cursor:default fill:$icon-fill-active
+		.container d:hflex w:fit-content gap:8px rd:8px p:4px bgc:light-dark(#000000/10, #FFFFFF/20)
+		.button d:inline-flex jc:center w:36px h:36px p:8px rd:6px cursor:pointer bgc@hover:light-dark(#000000/10, #FFFFFF/20) fill:light-dark(#000000/40, #FFFFFF/50)
+		.button-active bgc:light-dark(#000000/10, #FFFFFF/20) cursor:default fill:light-dark(#000000, #FFFFFF)
 
 	<self>
-		css w:fit-content d:hflex gap:8px rd:8px p:4px bgc:light-dark(#000000/10, #FFFFFF/20)
-		<{light}.button .active=engine.light @click=(engine.light = true)>
-		<{dark}.button .active=engine.dark @click=(engine.dark = true)>
-		<{system}.button .active=engine.auto @click=(engine.auto = true)>
+		<div.container [d:hflex w:fit-content]>
+			<{light}.button [d:inline-flex jc:center] .button-active=engine.light @click=(engine.light = true)>
+			<{dark}.button [d:inline-flex jc:center] .button-active=engine.dark @click=(engine.dark = true)>
+			<{system}.button [d:inline-flex jc:center] .button-active=engine.auto @click=(engine.auto = true)>
 
 export tag ColorModeSwitcherSimple
 	engine
@@ -51,11 +42,12 @@ export tag ColorModeSwitcherSimple
 	dark = MoonIcon
 
 	css
-		.button d:inline-flex jc:center
+		.container w:fit-content gap:8px rd:8px p:8px
+		.button h:20px w:20px bgc:light-dark(#000000/10, #FFFFFF/20) bgc@hover:light-dark(#000000/20, #FFFFFF/30) cursor:pointer fill:light-dark(#000000, #FFFFFF)
 
-	<self @click=engine.toggle!>
-		css w:fit-content h:36px d:hflex gap:8px rd:8px p:8px bgc:light-dark(#000000/10, #FFFFFF/20) bgc@hover:light-dark(#000000/20, #FFFFFF/30) fill:light-dark(#000000, #FFFFFF) cursor:pointer
-		if engine.active == 'dark'
-			<{light}.button>
-		else
-			<{dark}.button>
+	<self>
+		<div.container [w:100% h:100% d:hflex] @click=engine.toggle!>
+			if engine.active == 'dark'
+				<{light}.button [d:inline-flex jc:center]>
+			else
+				<{dark}.button [d:inline-flex jc:center]>
