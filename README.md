@@ -176,3 +176,16 @@ tag SomeIcon
 <ColorModeSwitcher light=SomeIcon> # available icon attributes: light, dark, system
 <ColorModeSwitcherSimple light=SomeIcon> # available icon attributes: light, dark
 ```
+
+## 🧩 Moon, Sun and Monitor icons
+
+You can also use the three SVG icons included in this package: Moon, Sun and Monitor.
+
+```imba
+import {MoonIcon, SunIcon, MonitorIcon} from 'imba-color-mode/components'
+
+tag App
+	<self>
+		<MoonIcon>
+			css w:20px h:20px fill:white stroke:red
+```
