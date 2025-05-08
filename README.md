@@ -96,10 +96,12 @@ This approach allows, to create let's say a dark theme for an application using 
 
 ## 🔄 Switcher Components
 
-This library contains two plug and play components, that can be easily used in your Imba application to switch between color modes. 
+This library contains two plug and play components, that can be easily used in your Imba application to switch between color modes.
 
 **ColorModeSwitcher** shows three icons a user can click: light, dark, system. 
 **ColorModeSwitcherSimple** shows only one icon to toggle between light/dark modes.
+
+To make these components work an instance of the ColorModes class should be passed in the `enginge` attribute. 
 
 ```imba
 import {ColorModes} from 'imba-color-mode'
