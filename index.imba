@@ -153,14 +153,21 @@ export def mix hex1, percent, hex2
 # --------------------------------------------------
 # Main function to create a color palette
 # --------------------------------------------------
+const pallet_err = 
+	'''Pallete definition is wrong. Please check that:
+		- pallete starts and ends with the color (as a string)
+		- pallete contains only numbers or colors (as string)
+		- pallete contains at least one color
+		- count of colors in dark and light palletes must be equal'''
+
 export def pallete name\string, light = [], dark = []
 	
 	if !light or !light.length or !dark or !dark.length
-		console.log 'Palletes must contain at least one color'
+		console.log pallet_err
 		return
 	
 	if !(light[0] isa 'string') or !(light[-1] isa 'string') or !(dark[0] isa 'string') or !(dark[-1] isa 'string')
-		console.log 'Pallete definition should start and end with the color (as a string)'
+		console.log pallet_err
 
 	let lights = []
 	let darks = []
@@ -172,7 +179,7 @@ export def pallete name\string, light = [], dark = []
 			for j in [1 .. light[i]]
 				lights.push mix(light[i + 1], j * 100 / (light[i] + 1), light[i - 1])
 		else 
-			console.log 'Pallete definition could contain only numbers or colors (as string)'
+			console.log pallet_err
 			return
 
 	for i in [0 ... dark.length]
@@ -182,11 +189,11 @@ export def pallete name\string, light = [], dark = []
 			for j in [1 .. dark[i]]
 				darks.push mix(dark[i + 1], j * 100 / (dark[i] + 1), dark[i - 1])
 		else 
-			console.log 'Pallete definition could contain only numbers or colors (as string)'
+			console.log pallet_err
 			return
 
 	if lights.length != darks.length
-		console.log 'Count of colors in dark and light palletes must be equal'
+		console.log pallet_err
 		return
 
 	for i in [0 ... lights.length]

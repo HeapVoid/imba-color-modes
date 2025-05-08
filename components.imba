@@ -19,6 +19,11 @@ tag MonitorIcon
 # --------------------------------------------------
 # Components to switch color modes
 # --------------------------------------------------
+
+# Helper functon to reduce overall library size
+def check engine
+	console.log "ColorModeSwitcher: engine not set" if !engine 
+
 export tag ColorModeSwitcher
 	engine
 	light = SunIcon
@@ -26,7 +31,7 @@ export tag ColorModeSwitcher
 	system = MonitorIcon
 
 	def mount
-		console.log "ColorModeSwitcher: engine not set" if !engine 
+		check(engine)
 
 	css
 		.container gap:8px rd:8px p:4px bgc:light-dark(#000000/10, #FFFFFF/20)
@@ -45,7 +50,7 @@ export tag ColorModeSwitcherSimple
 	dark = MoonIcon
 
 	def mount
-		console.log "ColorModeSwitcher: engine not set" if !engine 
+		check(engine)
 
 	css
 		.button gap:8px rd:8px p:8px bgc:light-dark(#000000/10, #FFFFFF/20) bgc@hover:light-dark(#000000/20, #FFFFFF/30) cursor:pointer
