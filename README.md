@@ -104,8 +104,7 @@ This library contains two plug and play components, that can be easily used in y
 To make these components work an instance of the ColorModes class should be passed in the `state` attribute. 
 
 ```imba
-import {ColorModes} from 'imba-color-mode'
-import {ColorModeSwitcher, ColorModeSwitcherSimple} from 'imba-color-mode/components'
+import {ColorModes, ColorModeSwitcher, ColorModeSwitcherSimple} from 'imba-color-modes'
 
 const modes = new ColorModes!
 <ColorModeSwitcher state=modes>
@@ -145,7 +144,7 @@ Here how built-in CSS classes look like in components
 
 And here is example how to adjust the CSS properties of the components:
 ```imba
-import {ColorModeSwitcher, ColorModeSwitcherSimple} from 'imba-color-mode/components'
+import {ColorModeSwitcher, ColorModeSwitcherSimple} from 'imba-color-modes'
 
 tag ModeSwitcher < ColorModeSwitcher
 	css
@@ -182,7 +181,7 @@ tag SomeIcon
 You can also use the three SVG icons included in this package: Moon, Sun and Monitor.
 
 ```imba
-import {MoonIcon, SunIcon, MonitorIcon} from 'imba-color-mode/components'
+import {MoonIcon, SunIcon, MonitorIcon} from 'imba-color-modes'
 
 tag App
 	<self>
