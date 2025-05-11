@@ -78,7 +78,7 @@ export tag ColorModeSwitcher
 		check(state)
 
 	css
-		.container gap:8px rd:8px p:4px bgc:light-dark(#000000/10, #FFFFFF/20)
+		.container gap:8px rd:8px p:4px bgc:light-dark(#000000/10, #FFFFFF/20)  w:100% > max-content
 		.button w:36px h:36px p:8px rd:6px cursor:pointer bgc@hover:light-dark(#000000/10, #FFFFFF/20) fill:light-dark(#000000/40, #FFFFFF/50)
 		.button-active bgc:light-dark(#000000/10, #FFFFFF/20) cursor:default fill:light-dark(#000000, #FFFFFF)
 
