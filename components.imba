@@ -21,44 +21,44 @@ export tag MonitorIcon
 # --------------------------------------------------
 
 # Helper functon to reduce overall library size
-def check engine
-	console.log "ColorModeSwitcher: engine not set" if !engine 
+def check state
+	console.log "ColorModeSwitcher: engine of the state not set" if !state
 
 export tag ColorModeSwitcher
-	engine
+	state
 	light = SunIcon
 	dark = MoonIcon
 	system = MonitorIcon
 
 	def mount
-		check(engine)
+		check(state)
 
 	css
 		.container gap:8px rd:8px p:4px bgc:light-dark(#000000/10, #FFFFFF/20)
 		.button w:36px h:36px p:8px rd:6px cursor:pointer bgc@hover:light-dark(#000000/10, #FFFFFF/20) fill:light-dark(#000000/40, #FFFFFF/50)
 		.button-active bgc:light-dark(#000000/10, #FFFFFF/20) cursor:default fill:light-dark(#000000, #FFFFFF)
 
-	<self> if engine
+	<self> if state
 		<div.container [d:hflex]>
-			<{light}.button [d:inline-flex jc:center] .button-active=engine.light @click=(engine.light = true)>
-			<{dark}.button [d:inline-flex jc:center] .button-active=engine.dark @click=(engine.dark = true)>
-			<{system}.button [d:inline-flex jc:center] .button-active=engine.auto @click=(engine.auto = true)>
+			<{light}.button [d:inline-flex jc:center] .button-active=state.light @click=(state.light = true)>
+			<{dark}.button [d:inline-flex jc:center] .button-active=state.dark @click=(state.dark = true)>
+			<{system}.button [d:inline-flex jc:center] .button-active=state.auto @click=(state.auto = true)>
 
 export tag ColorModeSwitcherSimple
-	engine
+	state
 	light = SunIcon
 	dark = MoonIcon
 
 	def mount
-		check(engine)
+		check(state)
 
 	css
 		.button gap:8px rd:8px p:8px bgc:light-dark(#000000/10, #FFFFFF/20) bgc@hover:light-dark(#000000/20, #FFFFFF/30) cursor:pointer
 		.icon h:20px w:20px fill:light-dark(#000000, #FFFFFF)
 
-	<self> if engine
-		<div.button [w:100% h:100% d:hflex] @click=engine.toggle!>
-			if engine.active == 'dark'
+	<self> if state
+		<div.button [w:100% h:100% d:hflex] @click=state.toggle!>
+			if state.active == 'dark'
 				<{light}.icon [d:inline-flex jc:center]>
 			else
 				<{dark}.icon [d:inline-flex jc:center]>

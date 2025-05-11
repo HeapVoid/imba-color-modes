@@ -101,15 +101,15 @@ This library contains two plug and play components, that can be easily used in y
 **ColorModeSwitcher** shows three icons a user can click: light, dark, system. 
 **ColorModeSwitcherSimple** shows only one icon to toggle between light/dark modes.
 
-To make these components work an instance of the ColorModes class should be passed in the `enginge` attribute. 
+To make these components work an instance of the ColorModes class should be passed in the `state` attribute. 
 
 ```imba
 import {ColorModes} from 'imba-color-mode'
 import {ColorModeSwitcher, ColorModeSwitcherSimple} from 'imba-color-mode/components'
 
 const modes = new ColorModes!
-<ColorModeSwitcher engine=modes>
-<ColorModeSwitcherSimple engine=modes>
+<ColorModeSwitcher state=modes>
+<ColorModeSwitcherSimple state=modes>
 ```
 
 ### Component Styling
