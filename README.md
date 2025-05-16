@@ -10,7 +10,7 @@ A lightweight Imba module for managing color modes and performing perceptual col
 * **Auto-Detection**: `system` preset follows OS/browser preference via `window.matchMedia`.
 * **Color Mixing**: `mix(color1, percent, color2)` returns an interpolated color in hex (Oklab-based).
 * **Color Palette Generation**: `palette(name, lightest, color, darkest)` generates a smooth 21-color gradient from lightest to darkest, centered on the `color`.
-* **Switcher Components**: `<ColorModeSwitcher>` and `<ColorModeSwitcherSimple>` to toggle between light and dark modes.
+* **Switcher Components**: `<theme-switcher>` and `<theme-switcher-simple>` to toggle between light and dark modes.
 
 ## 🛠 Installation
 
@@ -26,10 +26,10 @@ bun add imba-color-modes
 ## 📦 Basic Usage
 
 ```imba
-import {ColorModesState} from 'imba-color-modes'
+import {ColorModes} from 'imba-color-modes'
 
 # Initialize
-const modes = new ColorModesState!
+const modes = new ColorModes!
 
 # Read current settings
 console.log modes.preset   # 'light', 'dark', or 'system'
@@ -98,17 +98,17 @@ This approach allows, to create let's say a dark theme for an application using 
 
 This library contains two plug and play components, that can be easily used in your Imba application to switch between color modes.
 
-**ColorModeSwitcher** shows three icons a user can click: light, dark, system. 
-**ColorModeSwitcherSimple** shows only one icon to toggle between light/dark modes.
+**`<theme-switcher>`** shows three icons a user can click: light, dark, system. 
+**`<theme-switcher-simple>`** shows only one icon to toggle between light/dark modes.
 
 To make these components work an instance of the ColorModesState class should be passed in the `state` attribute. 
 
 ```imba
-import {ColorModesState, ColorModeSwitcher, ColorModeSwitcherSimple} from 'imba-color-modes'
+import {ColorModes} from 'imba-color-modes'
 
-const modes = new ColorModesState!
-<ColorModeSwitcher state=modes>
-<ColorModeSwitcherSimple state=modes>
+const modes = new ColorModes!
+<theme-switcher state=modes>
+<theme-switcher-simple state=modes>
 ```
 
 ### Component Styling
@@ -117,7 +117,7 @@ Both of the color mode switching components are built in a way to make their adj
 
 Here how built-in CSS classes look like in components
 ```imba
-# ColorModeSwitcher
+# theme-switcher
 .container 
 	gap:8px rd:8px p:4px 
 	bgc:light-dark(#000000/10, #FFFFFF/20)
@@ -131,7 +131,7 @@ Here how built-in CSS classes look like in components
 	bgc:light-dark(#000000/10, #FFFFFF/20) 
 	fill:light-dark(#000000, #FFFFFF)
 	
-# ColorModeSwitcherSimple
+# theme-switcher-simple
 .button 
 	cursor:pointer
 	gap:8px rd:8px p:8px 
@@ -144,15 +144,15 @@ Here how built-in CSS classes look like in components
 
 And here is example how to adjust the CSS properties of the components:
 ```imba
-import {ColorModeSwitcher, ColorModeSwitcherSimple} from 'imba-color-modes'
+import {ColorModes} from 'imba-color-modes'
 
-tag ModeSwitcher < ColorModeSwitcher
+tag theme-switcher-custom < theme-switcher
 	css
 		.container gap:20px
 		.button rd:50%
 		.button-active bgc:yellow
 
-tag ModeSwitcherSimple < ColorModeSwitcherSimple
+tag theme-switcher-simple-custom < theme-switcher-simple
 	css
 		.button rd:50%
 		.icon h:40px w:40px fill:yellow
@@ -160,20 +160,17 @@ tag ModeSwitcherSimple < ColorModeSwitcherSimple
 # Use this adjusted components as usual:
 tag App
 	<self>
-		<ModeSwitcherSimple>
+		<theme-switcher-custom>
 
 ```
 The icons can be passed as tags to component attributes:
 
 ```imba
-tag SomeIcon
-	<self>
-		<svg viewBox="..." xmlns="http://www.w3.org/2000/svg">
-			<path d="...">
+const sunny = <path d="...">
+const cloudy = <path d="...">
 
-
-<ColorModeSwitcher light=SomeIcon> # available icon attributes: light, dark, system
-<ColorModeSwitcherSimple light=SomeIcon> # available icon attributes: light, dark
+<theme-switcher light=sunny dark=cloudy> # available icon attributes: light, dark, system
+<theme-switcher-simple icons={light:sunny, dark:cloudy}> # available icon attributes: light, dark
 ```
 
 ## 🧩 Moon, Sun and Monitor icons
@@ -181,10 +178,10 @@ tag SomeIcon
 You can also use the three SVG icons included in this package: Moon, Sun and Monitor.
 
 ```imba
-import {MoonIcon, SunIcon, MonitorIcon} from 'imba-color-modes'
+import {moon, sun, monitor} from 'imba-color-modes'
 
 tag App
 	<self>
-		<MoonIcon>
-			css w:20px h:20px fill:white stroke:red
+		<svg [w:20px h:20px fill:white stroke:red] viewBox="0 0 256 256">
+			<{moon}>
 ```
