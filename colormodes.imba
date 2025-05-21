@@ -96,7 +96,7 @@ tag theme-switcher-simple
 		.button gap:8px rd:8px p:8px h:20px w:20px fill:light-dark(#000000, #FFFFFF) bgc:light-dark(#000000/10, #FFFFFF/20) bgc@hover:light-dark(#000000/20, #FFFFFF/30) cursor:pointer
 
 	<self> if state
-		<{icons[state.active]}.button [w:100% h:100% d:inline-flex jc:center] @click=state.toggle!>
+		<{icons[state.active]}.button [d:inline-flex jc:center] @click=state.toggle!>
 
 # --------------------------------------------------
 # --------------------------------------------------
